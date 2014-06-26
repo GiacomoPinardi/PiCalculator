@@ -87,9 +87,11 @@ public class Management {
             case 2:
                 return "Liebniz Formula (B)";
             case 3:
-                return "Nilakantha";
+                return "Nilakantha Formula";
             case 4:
-                return "Wallis";
+                return "Wallis Formula";
+            case 5:
+                return "Leclerc Experiment";
             default:
                 return "Error";
         }

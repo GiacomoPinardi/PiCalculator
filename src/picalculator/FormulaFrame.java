@@ -19,10 +19,12 @@ import javax.swing.JOptionPane;
 public class FormulaFrame extends javax.swing.JFrame {
 
     Management manager = new Management();
+    BuffonSettingsFrame bSettings = new BuffonSettingsFrame();
     
     private URI urlViete = null;
     private URI urlLeibnizA = null;
     private URI urlWallis = null;
+    private URI urlLeclerc = null;
     
     public FormulaFrame() {
         initComponents();
@@ -32,6 +34,7 @@ public class FormulaFrame extends javax.swing.JFrame {
             urlViete = new URI("http://en.wikipedia.org/wiki/Vi%C3%A8te%27s_formula");
             urlLeibnizA = new URI("http://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80");
             urlWallis = new URI("http://mathworld.wolfram.com/WallisFormula.html");
+            urlLeclerc = new URI("http://en.wikipedia.org/wiki/Buffon%27s_needle");
         }
         catch (URISyntaxException ex) {
             JOptionPane.showMessageDialog(rootPane, "Wrong syntax of the URL","Error!" , JOptionPane.ERROR_MESSAGE);
@@ -58,6 +61,9 @@ public class FormulaFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jButton7 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +113,23 @@ public class FormulaFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jRadioButton6);
+        jRadioButton6.setText("Leclerc (Buffon's needle)");
+
+        jButton7.setText("Open Link");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Settings");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,11 +155,16 @@ public class FormulaFrame extends javax.swing.JFrame {
                                     .addComponent(jRadioButton2)
                                     .addComponent(jRadioButton3)
                                     .addComponent(jRadioButton4)
-                                    .addComponent(jRadioButton5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jRadioButton5)
+                                    .addComponent(jRadioButton6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButton4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton7)))))
                         .addGap(52, 52, 52))))
         );
         layout.setVerticalGroup(
@@ -156,17 +184,18 @@ public class FormulaFrame extends javax.swing.JFrame {
                 .addComponent(jRadioButton3)
                 .addGap(8, 8, 8)
                 .addComponent(jRadioButton4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton5)
-                            .addComponent(jButton6))
-                        .addGap(24, 60, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton5)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jRadioButton6)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
@@ -188,6 +217,9 @@ public class FormulaFrame extends javax.swing.JFrame {
         if (jRadioButton5.isSelected()) {
             manager.setFormula(4);
         }
+        if (jRadioButton6.isSelected()) {
+            manager.setFormula(5);
+        }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -202,6 +234,14 @@ public class FormulaFrame extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         this.openURL(urlWallis);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        this.openURL(urlLeclerc);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        bSettings.show();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void openURL (URI url) {
         if (Desktop.isDesktopSupported()) {
@@ -222,12 +262,15 @@ public class FormulaFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
     // End of variables declaration//GEN-END:variables
 }

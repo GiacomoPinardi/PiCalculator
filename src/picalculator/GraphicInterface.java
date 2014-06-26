@@ -17,6 +17,8 @@ public class GraphicInterface extends javax.swing.JFrame {
     private AboutInterface about = new AboutInterface();
     private FormulaFrame formulaFrame = new FormulaFrame();
     private Management manager = new Management();
+    private Leclerc leclerc = new Leclerc();
+    private BuffonSettingsFrame bSettings = new BuffonSettingsFrame();
     
     public GraphicInterface() {
         initComponents();
@@ -88,6 +90,11 @@ public class GraphicInterface extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButton4);
         jRadioButton4.setText("User");
+        jRadioButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButton4MouseClicked(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("10.000 [low]");
@@ -242,15 +249,15 @@ public class GraphicInterface extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGap(16, 16, 16)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel8))
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3))
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -315,7 +322,16 @@ public class GraphicInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.calcPi();        
+        if ((manager.getnLoops() >= 1000000000) && (manager.getFormula() == 5)) {
+            //JOptionPane.showMessageDialog(rootPane, "It will take A LOT of time (4 minute or more). Are you sure?","Attention!" , JOptionPane.WARNING_MESSAGE);
+            int tmp = JOptionPane.showConfirmDialog(rootPane, "It will take A LOT of time (4 minute or more). Are you sure?\n(Pressing YES button the screen appear to be freezed,\nbut isn't true: application is only calculating a lot)", "Attention!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (tmp == 0) {
+                this.calcPi();
+            }
+        }
+        else {
+            this.calcPi();        
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -329,6 +345,10 @@ public class GraphicInterface extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jLabel11.setText(manager.setSelectedFormula());
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jRadioButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton4MouseClicked
+        manager.setRadioButtonClicked(false);
+    }//GEN-LAST:event_jRadioButton4MouseClicked
 
     private void calcPi() {
         if (!manager.isRadioButtonClicked()) {        
@@ -357,7 +377,7 @@ public class GraphicInterface extends javax.swing.JFrame {
                 this.formulaWallis();
                 break;
             case 5:
-                //continue...
+                this.formulaLeclerc();
                 break;
                 
         }
@@ -447,6 +467,33 @@ public class GraphicInterface extends javax.swing.JFrame {
         manager.stopClock();
         
         manager.setPiNumberCalculated(partial);
+    }
+    
+    private void formulaLeclerc () {
+        int nCrossing = 0;
+        
+        String value[];
+        String tmpS = bSettings.getSettings();
+        value = tmpS.split(";");
+        
+        leclerc.createField(Double.parseDouble(value[0]), Integer.parseInt(value[1]));
+        manager.startClock();
+        for (int i = 0; i < manager.getnLoops(); i++) {
+            leclerc.dropNeedle();
+            if (leclerc.isCrossing()) {
+                nCrossing ++;
+            }
+        }
+        double tmp = 0;
+        try {
+            tmp = (double) (manager.getnLoops() * 2) / nCrossing;
+        }
+        catch (ArithmeticException ex) {
+            
+        }
+        manager.stopClock();
+        
+        manager.setPiNumberCalculated(tmp);
     }
     
     private void showValue () {
